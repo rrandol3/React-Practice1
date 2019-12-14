@@ -9,6 +9,7 @@ const Footer = () => {
       variant="dark"
       fixed="bottom"
       className="justify-content-center"
+      style={{}}
     >
       <Navbar.Brand href="#home">
         <img

@@ -5,7 +5,7 @@ import { Navbar } from "react-bootstrap";
 const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" fixed="top">
-      <Navbar.Brand href="#home">
+      <Navbar.Brand href="/">
         <img
           alt=""
           src={logo}
@@ -13,7 +13,7 @@ const Header = () => {
           height="30"
           className="d-inline-block align-top"
         />{" "}
-        Header
+        Home
       </Navbar.Brand>
     </Navbar>
   );

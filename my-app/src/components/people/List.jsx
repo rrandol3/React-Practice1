@@ -3,23 +3,48 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { Jumbotron, Button, CardDeck, Card, Table } from "react-bootstrap";
+import {
+  Redirect,
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  withRouter
+} from "react-router-dom";
 // import people from "../../mockdata/people.json";
 import actionCreators from "../../redux/people/actions.js";
 
 class List extends Component {
-  //runs on component load
   async componentDidMount() {
     const { getPeopleList } = this.props;
     await getPeopleList();
   }
+
+  updatePersonBtnClick = async id => {
+    const { getPerson } = this.props;
+    await getPerson(id);
+  };
+
+  removePersonBtnClick = async id => {
+    const { removePerson } = this.props;
+    await removePerson(id);
+  };
+
   render() {
-    const { peopleList, addPerson } = this.props;
+    const { redirectToPerson, peopleList } = this.props;
+    if (redirectToPerson) {
+      return <Redirect to="/person" />;
+    }
     return (
       <div>
         <Jumbotron>
           <h1>List of People</h1>
         </Jumbotron>
-        {/* <Button onClick={() => addPerson()}>Add Person</Button> */}
+        <Link to="/person">
+          <Button type="button">Add New Person</Button>
+        </Link>
+        <br></br>
+        <br></br>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -28,6 +53,8 @@ class List extends Component {
               <th scope="col">Company</th>
               <th scope="col">Email</th>
               <th scope="col">Balance</th>
+              <th scope="col">Update</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -38,6 +65,24 @@ class List extends Component {
                 <td>{person.company}</td>
                 <td>{person.email}</td>
                 <td>{person.balance}</td>
+                <td>
+                  <Button
+                    variant="success"
+                    type="button"
+                    onClick={() => this.updatePersonBtnClick(person._id)}
+                  >
+                    Update Person
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    variant="danger"
+                    type="button"
+                    onClick={() => this.removePersonBtnClick(person._id)}
+                  >
+                    Remove Person
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>

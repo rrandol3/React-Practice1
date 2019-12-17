@@ -41,7 +41,9 @@ export default function(state = initState, action) {
     case UPDATE_PERSON:
       return {
         ...state,
-        peopleList: [...state.peopleList, action.data]
+        peopleList: [...state.peopleList, action.data],
+        redirectToPerson: false,
+        redirectToPeople: true
       };
     default:
       return state;

@@ -5,8 +5,8 @@ import {
   GET_PERSON,
   REMOVE_PERSON
 } from "./constants";
-import mockdata from "../../mockdata/people.json";
 
+//get person list
 const getPeopleList = () => async dispatch => {
   const dbData = await fetch("http://localhost:4000/api/people").then(res =>
     res.json()
@@ -17,6 +17,7 @@ const getPeopleList = () => async dispatch => {
   });
 };
 
+//get person by id
 const getPerson = id => async dispatch => {
   console.log(id);
   const person = await fetch(`http://localhost:4000/api/people/${id}`, {
@@ -29,6 +30,7 @@ const getPerson = id => async dispatch => {
   });
 };
 
+//add person
 const addPerson = person => async dispatch => {
   await fetch("http://localhost:4000/api/people", {
     method: "POST",
@@ -57,17 +59,20 @@ const removePerson = id => async (dispatch, getState) => {
   });
 };
 
+//responds to update person btn click to populate person form
 const updatePersonBtnClick = id => async (getState, dispatch) => {
   getPerson(id);
-  //console.log(person);
 };
 
+//update person
 const updatePerson = person => async dispatch => {
-  // await fetch("http://localhost:4000/api/people", {
-  //   method: "PUT",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(person)
-  // });
+  await fetch(`http://localhost:4000/api/people/${person._id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(person)
+  }).then(res => res.json());
+
+  console.log("updatePerson person:", person);
 
   dispatch({
     type: UPDATE_PERSON,

@@ -15,20 +15,30 @@ import { Link, Redirect } from "react-router-dom";
 class PersonForm extends Component {
   handelSubmit = async event => {
     event.preventDefault();
-    const person = {
-      // _id: "5df45951ac4535345dce28",
-      age: event.target.age.value,
-      name: event.target.name.value,
-      company: event.target.company.value,
-      email: event.target.email.value,
-      balance: event.target.balance.value
-    };
-    const { addPerson } = this.props;
-    await addPerson(person);
+    const { addPerson, updatePerson } = this.props;
+    if (event.target._id.value) {
+      const person = {
+        _id: event.target._id.value,
+        age: event.target.age.value,
+        name: event.target.name.value,
+        company: event.target.company.value,
+        email: event.target.email.value,
+        balance: event.target.balance.value
+      };
+      await updatePerson(person);
+    } else {
+      const person = {
+        age: event.target.age.value,
+        name: event.target.name.value,
+        company: event.target.company.value,
+        email: event.target.email.value,
+        balance: event.target.balance.value
+      };
+      await addPerson(person);
+    }
   };
   render() {
     const { redirectToPeople, person } = this.props;
-    console.log(person.name);
     if (redirectToPeople) {
       return <Redirect push to="/people"></Redirect>;
     }
@@ -43,6 +53,9 @@ class PersonForm extends Component {
         </Jumbotron>
         <Container>
           <Form onSubmit={this.handelSubmit}>
+            <Form.Group hidden controlId="_id">
+              <Form.Control defaultValue={person._id}></Form.Control>
+            </Form.Group>
             <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
